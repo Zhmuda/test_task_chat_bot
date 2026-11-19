@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Шеф — кулинарный ассистент</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍳</text></svg>">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/js/main.js"></script>
+</head>
+<body>
+  <div id="boot" class="boot" aria-hidden="true"><span class="spinner"></span></div>
+
+  <main id="login-screen" class="login" hidden>
+    <form id="login-form" class="login__card" novalidate>
+      <div class="login__logo" aria-hidden="true">🍳</div>
+      <h1 class="login__title">Шеф</h1>
+      <p class="login__subtitle">Кулинарный ассистент на базе Gemini.<br>Введите ключ доступа, чтобы продолжить.</p>
+
+      <label class="field">
+        <span class="field__label">Ключ доступа</span>
+        <span class="field__control">
+          <input id="access-key" name="access_key" type="password"
+                 autocomplete="current-password" spellcheck="false"
+                 minlength="8" maxlength="255" required
+                 aria-describedby="key-hint key-error">
+          <button type="button" id="toggle-key" class="icon-btn" aria-label="Показать ключ" title="Показать ключ">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 5c-5 0-9 4.5-10 7 1 2.5 5 7 10 7s9-4.5 10-7c-1-2.5-5-7-10-7Zm0 11.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Zm0-2.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>
+          </button>
+        </span>
+        <span id="key-hint" class="field__hint">8–255 символов: латиница, цифры, «-» и «_»</span>
+        <span id="key-error" class="field__error" role="alert"></span>
+      </label>
+
+      <button id="login-btn" class="btn btn--primary btn--block" type="submit" disabled>
+        <span class="btn__label">Войти</span>
+      </button>
+    </form>
+  </main>
+
+  <div id="chat-screen" class="chat" hidden>
+    <header class="chat__header">
+      <div class="chat__brand">
+        <span class="chat__avatar" aria-hidden="true">🍳</span>
+        <div>
+          <div class="chat__title">Шеф</div>
+          <div class="chat__status">кулинарный ассистент</div>
+        </div>
+      </div>
+      <div class="chat__actions">
+        <button id="clear-btn" class="btn btn--ghost" type="button" title="Очистить историю">Очистить</button>
+        <button id="logout-btn" class="btn btn--ghost" type="button" title="Выйти">Выйти</button>
+      </div>
+    </header>
+
+    <section id="messages" class="messages" aria-live="polite" aria-label="История переписки">
+      <div id="empty-state" class="empty" hidden>
+        <div class="empty__icon" aria-hidden="true">🥘</div>
+        <h2>Что приготовим?</h2>
+        <p>Перечислите продукты из холодильника, спросите рецепт или попросите составить меню.</p>
+        <div class="chips">
+          <button type="button" class="chip">У меня есть курица, рис и брокколи — что приготовить?</button>
+          <button type="button" class="chip">Быстрый завтрак за 10 минут</button>
+          <button type="button" class="chip">Чем заменить яйца в выпечке?</button>
+          <button type="button" class="chip">Как правильно сварить пасту аль денте?</button>
+        </div>
+      </div>
+      <div id="message-list" class="message-list"></div>
+      <div id="typing" class="msg msg--assistant" hidden>
+        <div class="msg__bubble typing"><span></span><span></span><span></span></div>
+      </div>
+    </section>
+
+    <footer class="composer">
+      <div id="chat-error" class="composer__error" role="alert" hidden>
+        <span id="chat-error-text"></span>
+        <button type="button" id="chat-error-close" class="icon-btn" aria-label="Скрыть">✕</button>
+      </div>
+      <form id="chat-form" class="composer__form" novalidate>
+        <textarea id="message-input" rows="1" maxlength="500"
+                  placeholder="Спросите Шефа…" aria-label="Сообщение"></textarea>
+        <button id="send-btn" class="btn btn--primary btn--send" type="submit" disabled aria-label="Отправить">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>
+        </button>
+      </form>
+      <div class="composer__meta">
+        <span>Enter — отправить, Shift+Enter — новая строка</span>
+        <span id="counter" class="counter">0 / 500</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
